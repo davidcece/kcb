@@ -19,17 +19,20 @@ public class DisbursementService {
     private final Map<String, DisbursementProvider> disbursementProviders;
     private final DisbursementRepository disbursementRepository;
     private final SMSService smsService;
+    private final UserService userService;
 
     public DisbursementService(List<DisbursementProvider> disbursementProviders,
                                DisbursementRepository disbursementRepository,
-                               SMSService smsService) {
+                               SMSService smsService, final UserService userService) {
         this.disbursementProviders = disbursementProviders.stream()
                 .collect(Collectors.toMap(DisbursementProvider::getProviderName, provider -> provider));
         this.disbursementRepository = disbursementRepository;
         this.smsService = smsService;
+        this.userService = userService;
     }
 
-    public DisbursementResponse createDisbursement(DisbursementRequest request, User sender) {
+    public DisbursementResponse createDisbursement(DisbursementRequest request, String username) {
+        User sender = userService.getUserByUsername(username);
         DisbursementProvider provider = getProvider(request.getProviderName());
         String transactionId = provider.createDisbursement(request.getAmount(), request.getRecipientName(), request.getRecipientPhone());
         Disbursement disbursement = Disbursement.builder()

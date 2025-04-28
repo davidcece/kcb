@@ -1,13 +1,13 @@
 package com.cece.kcb.controller;
 
 
-import com.cece.kcb.entity.User;
 import com.cece.kcb.request.DisbursementRequest;
 import com.cece.kcb.response.DisbursementResponse;
 import com.cece.kcb.response.KCBResponse;
 import com.cece.kcb.service.DisbursementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +22,7 @@ public class DisbursementController {
         try {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            DisbursementResponse disbursementResponse = disbursementService.createDisbursement(request, user);
+            DisbursementResponse disbursementResponse = disbursementService.createDisbursement(request, user.getUsername());
             return new KCBResponse(disbursementResponse);
         }catch (Exception e){
             return new KCBResponse<>(e);
