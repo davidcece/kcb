@@ -52,7 +52,7 @@ public class DisbursementService {
 
 
     private DisbursementProvider getProvider(String providerName) {
-        DisbursementProvider provider = disbursementProviders.get(providerName.toLowerCase());
+        DisbursementProvider provider = disbursementProviders.get(providerName.toUpperCase());
         if (provider == null) {
             throw new IllegalArgumentException("No provider found for name: " + providerName);
         }
