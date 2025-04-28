@@ -30,7 +30,7 @@ public class DisbursementController {
     }
 
 
-    @GetMapping("/status?{transactionId}")
+    @GetMapping("/status/{transactionId}")
     public KCBResponse<DisbursementResponse> checkDisbursementStatus(@PathVariable(value = "transactionId") String transactionId) {
         try {
             DisbursementResponse disbursementResponse = disbursementService.checkDisbursementStatus(transactionId);
